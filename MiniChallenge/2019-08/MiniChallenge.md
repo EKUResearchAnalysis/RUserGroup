@@ -1,5 +1,6 @@
-Background
-----------
+# Mini Challenge - August 2019
+
+## Background
 
 A laboratory instrument produces a log file for the analyses it
 performs. The instrument may be given multiple samples to analyze. This
@@ -26,14 +27,12 @@ The log file is inconsistent, which is fortunate for us.
 2.  The date/time stamp of the start of analysis of the first sample is
     identifiable as 3 April 2018, 11:50:08.
 
-Objective
----------
+## Objective
 
 Determine the date/time associated with the time stamp
 636583527529040685.
 
-Hints
------
+## Hints
 
 -   Date/Time objects in R are, by default, stored as the number of
     seconds since 1 Jan 1970.
@@ -50,8 +49,7 @@ Hints
 After you find a slope and intercept, the function `as.POSIXct` will be
 helpful in finding a solution.
 
-Data
-----
+## Data
 
 Data are provided in the `Sequence.Rdata` file. The data consist of
 three columns with fourteen observations.
