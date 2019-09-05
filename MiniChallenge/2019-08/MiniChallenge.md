@@ -17,7 +17,7 @@ individual sample began its analysis cycle. (The black highlights are
 redactions; potential file system information that his hidden for
 operational security)
 
-![](Capture.PNG)
+![](Capture.png)
 
 The log file is inconsistent, which is fortunate for us.
 
