@@ -13,3 +13,6 @@ It is crucial that you install R first (if not RStudio will not work) and we ask
 
 The [video in this link](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDqxHWvCtjBvjSBvTbKWDCXfDv?projector=1) will walk you through the installation process.
 
+## Mini Challenges
+
+Each month we offer a new mini challenge to give you an opportunity to learn something new in R. You can see all of our mini challenges on our [GitHub repository](https://github.com/EKUResearchAnalysis/RUserGroup/tree/master/MiniChallenge).
