@@ -1,6 +1,5 @@
-# Mini Challenge - August 2019
-
-## Background
+Background
+----------
 
 A laboratory instrument produces a log file for the analyses it
 performs. The instrument may be given multiple samples to analyze. This
@@ -23,16 +22,18 @@ operational security)
 The log file is inconsistent, which is fortunate for us.
 
 1.  The date/time stamp of the start of the sequence is a long string of
-    numbers. It's meaning is not obvious.
+    numbers. It’s meaning is not obvious.
 2.  The date/time stamp of the start of analysis of the first sample is
     identifiable as 3 April 2018, 11:50:08.
 
-## Objective
+Objective
+---------
 
 Determine the date/time associated with the time stamp
 636583527529040685.
 
-## Hints
+Hints
+-----
 
 -   Date/Time objects in R are, by default, stored as the number of
     seconds since 1 Jan 1970.
@@ -49,7 +50,8 @@ Determine the date/time associated with the time stamp
 After you find a slope and intercept, the function `as.POSIXct` will be
 helpful in finding a solution.
 
-## Data
+Data
+----
 
 Data are provided in the `Sequence.Rdata` file. The data consist of
 three columns with fourteen observations.
@@ -63,9 +65,6 @@ three columns with fourteen observations.
     sequence began.
 
 <!-- -->
-
-    load("Sequence.Rdata")
-    Sequence
 
     ##                             sequence_id    timestamp      first_analysis
     ## 1  87d28a20-cb8f-4aac-a3ec-c11931ea4700 6.365835e+17 2018-04-03 11:50:08
@@ -86,21 +85,162 @@ three columns with fourteen observations.
 You may run the following code in R to load the data into your
 workspace:
 
+        Sequence <- 
+        structure(list(sequence_id = c("87d28a20-cb8f-4aac-a3ec-c11931ea4700", 
+        "18b4a490-e903-4172-a794-f829a3416526", "e834936f-6f49-4d84-a3da-bf8640dfaa18", 
+        "076b7778-5922-42cb-a185-035deeb9e3a0", "5020dc7f-97a6-4276-8ce8-a2d0818cf562", 
+        "cf0f96f8-a0dd-44e9-a15d-993b7d5c1834", "e412f327-3479-4bd1-8975-7bc9c7a12042", 
+        "b0454b64-1995-4d05-8687-4164b956dda1", "d0cddbc7-4d32-488a-8952-1e5dd8b0c9e8", 
+        "f38ce43a-2203-4e49-b25e-aa9872c256ea", "5b075845-2503-470c-9127-577ba8bf7ab0", 
+        "a2133ee7-2054-401c-bae5-8c48c68c3e37", "9405e5cf-dee0-4f5d-a5b9-ae076f31b5c8", 
+        "136c6673-7256-487f-880b-f80cb399e28c"), timestamp = c(636583527529040640, 
+        636583532508248704, 636583620119675264, 636583629461627392, 636583639616867456, 
+        636583666169027584, 636583749734024064, 636583833493856640, 636583917036381184, 
+        636584000270025728, 636584333029101824, 636584368212426112, 636585295224467968, 
+        636585307253700096), first_analysis = structure(c(1522770608, 
+        1522771047, 1522779884, 1522780766, 1522781775, 1522784437, 1522792887, 
+        1522801254, 1522809610, 1522817937, 1522851194, 1522854764, 1522947339, 
+        1522948536), class = c("POSIXct", "POSIXt"), tzone = "")), class = "data.frame", row.names = c(NA, 
+        -14L), .Names = c("sequence_id", "timestamp", "first_analysis"
+        ))
+
+Solution
+========
+
+One of the hints indicates that there is a linear relationship between
+the sequence date/time stamp, and the first analysis. Furthermore, the
+slope and intercept hints lead us toward linear regression. But first,
+let’s convert the first\_analysis column to a number.
+
+    library(dplyr)
+
+    ## 
+    ## Attaching package: 'dplyr'
+
+    ## The following objects are masked from 'package:stats':
+    ## 
+    ##     filter, lag
+
+    ## The following objects are masked from 'package:base':
+    ## 
+    ##     intersect, setdiff, setequal, union
+
+    library(broom) # for the tidy method
+
     Sequence <- 
-    structure(list(sequence_id = c("87d28a20-cb8f-4aac-a3ec-c11931ea4700", 
-    "18b4a490-e903-4172-a794-f829a3416526", "e834936f-6f49-4d84-a3da-bf8640dfaa18", 
-    "076b7778-5922-42cb-a185-035deeb9e3a0", "5020dc7f-97a6-4276-8ce8-a2d0818cf562", 
-    "cf0f96f8-a0dd-44e9-a15d-993b7d5c1834", "e412f327-3479-4bd1-8975-7bc9c7a12042", 
-    "b0454b64-1995-4d05-8687-4164b956dda1", "d0cddbc7-4d32-488a-8952-1e5dd8b0c9e8", 
-    "f38ce43a-2203-4e49-b25e-aa9872c256ea", "5b075845-2503-470c-9127-577ba8bf7ab0", 
-    "a2133ee7-2054-401c-bae5-8c48c68c3e37", "9405e5cf-dee0-4f5d-a5b9-ae076f31b5c8", 
-    "136c6673-7256-487f-880b-f80cb399e28c"), timestamp = c(636583527529040640, 
-    636583532508248704, 636583620119675264, 636583629461627392, 636583639616867456, 
-    636583666169027584, 636583749734024064, 636583833493856640, 636583917036381184, 
-    636584000270025728, 636584333029101824, 636584368212426112, 636585295224467968, 
-    636585307253700096), first_analysis = structure(c(1522770608, 
-    1522771047, 1522779884, 1522780766, 1522781775, 1522784437, 1522792887, 
-    1522801254, 1522809610, 1522817937, 1522851194, 1522854764, 1522947339, 
-    1522948536), class = c("POSIXct", "POSIXt"), tzone = "")), class = "data.frame", row.names = c(NA, 
-    -14L), .Names = c("sequence_id", "timestamp", "first_analysis"
-    ))
+      Sequence %>% 
+      mutate(first_analysis = as.numeric(first_analysis))
+
+Now we can fit a linear model. In this model, we will assign
+first\_analysis to be the independent variable, and timestamp to be the
+dependent variable.
+
+    fit <- lm(timestamp ~ first_analysis,
+              data = Sequence)
+
+    tidy(fit) # look at the results
+
+    ## # A tibble: 2 x 5
+    ##   term           estimate std.error statistic  p.value
+    ##   <chr>             <dbl>     <dbl>     <dbl>    <dbl>
+    ## 1 (Intercept)     6.21e17   3.58e12   173764. 8.89e-58
+    ## 2 first_analysis  1.00e 7   2.35e 3     4259. 1.89e-38
+
+    ##             term     estimate    std.error  statistic      p.value
+    ## 1    (Intercept) 6.213548e+17 3.575864e+12 173763.538 8.889876e-58
+    ## 2 first_analysis 1.000070e+07 2.348184e+03   4258.907 1.891559e-38
+
+What we are most interested in here are the values in the estimate
+column. These are the coefficients of the model, where the `(Intercept)`
+estimate is the y-intercept of the regression line, and the
+`first_analysis` estimate is the slope.
+
+Let’s look at the slope first. Used the number of seconds since 1 Jan
+1970 to be the independent variable. This means that for every one
+second increase in `first_analysis`, there is a corresponding increase
+of 10,000,698 units in timestamp. We didn’t originally know the units of
+timestamp, but this slope suggests that timestamp is measured in about
+ten millionths of a second.
+
+Now let’s look at the intercept. With what we know already, we can
+determine how many years difference there are between the epoch (the
+date/time at which we start counting seconds) of the first\_analysis and
+the epoch of timestamp.
+
+    seconds_per_year <- (60 * 60 * 24 * 365.25)
+    # seconds / minute * minute per hour * hour / day * day / year = seconds / year
+
+    intercept <- coef(fit)[1]
+    intercept_seconds <- intercept / 10000000 # Divide by ten million
+    intercept_years <- intercept_seconds /  seconds_per_year
+    intercept_years
+
+    ## (Intercept) 
+    ##    1968.954
+
+    ## (Intercept) 
+    ##    1968.954
+
+So it would seem that the epochs for first\_analysis and timestamp are
+about 1969 years apart. And since the intercept is positive, we may
+conclude that the epoch for timestamp occurs prior to the epoch for
+`first_analysis`. That means the year of the timestamp epoch is
+
+    # `timestamp` epoch
+    1970 - 1969
+
+    ## [1] 1
+
+    ## [1] 1
+
+Now we know that timestamp counts time in units of ten millionths of a
+second since 1 January 0001. We can convert timestamp as follows:
+
+    as.POSIXct(636583527529040685 / 10000000,
+               origin = "0001-01-01")
+
+    ## [1] "2018-04-03 11:45:52 UTC"
+
+    ## [1] "2018-04-03 07:45:52 EDT"
+
+and apply it to our data as follows
+
+    Sequence <- 
+      Sequence %>% 
+      mutate(timestamp = as.POSIXct(timestamp / 10000000,
+                                     origin = "0001-01-01"),
+             first_analysis = as.POSIXct(first_analysis,
+                                         origin = "1970-01-01"))
+
+    Sequence
+
+    ##                             sequence_id           timestamp
+    ## 1  87d28a20-cb8f-4aac-a3ec-c11931ea4700 2018-04-03 11:45:52
+    ## 2  18b4a490-e903-4172-a794-f829a3416526 2018-04-03 11:54:10
+    ## 3  e834936f-6f49-4d84-a3da-bf8640dfaa18 2018-04-03 14:20:11
+    ## 4  076b7778-5922-42cb-a185-035deeb9e3a0 2018-04-03 14:35:46
+    ## 5  5020dc7f-97a6-4276-8ce8-a2d0818cf562 2018-04-03 14:52:41
+    ## 6  cf0f96f8-a0dd-44e9-a15d-993b7d5c1834 2018-04-03 15:36:56
+    ## 7  e412f327-3479-4bd1-8975-7bc9c7a12042 2018-04-03 17:56:13
+    ## 8  b0454b64-1995-4d05-8687-4164b956dda1 2018-04-03 20:15:49
+    ## 9  d0cddbc7-4d32-488a-8952-1e5dd8b0c9e8 2018-04-03 22:35:03
+    ## 10 f38ce43a-2203-4e49-b25e-aa9872c256ea 2018-04-04 00:53:47
+    ## 11 5b075845-2503-470c-9127-577ba8bf7ab0 2018-04-04 10:08:22
+    ## 12 a2133ee7-2054-401c-bae5-8c48c68c3e37 2018-04-04 11:07:01
+    ## 13 9405e5cf-dee0-4f5d-a5b9-ae076f31b5c8 2018-04-05 12:52:02
+    ## 14 136c6673-7256-487f-880b-f80cb399e28c 2018-04-05 13:12:05
+    ##         first_analysis
+    ## 1  2018-04-03 15:50:08
+    ## 2  2018-04-03 15:57:27
+    ## 3  2018-04-03 18:24:44
+    ## 4  2018-04-03 18:39:26
+    ## 5  2018-04-03 18:56:15
+    ## 6  2018-04-03 19:40:37
+    ## 7  2018-04-03 22:01:27
+    ## 8  2018-04-04 00:20:54
+    ## 9  2018-04-04 02:40:10
+    ## 10 2018-04-04 04:58:57
+    ## 11 2018-04-04 14:13:14
+    ## 12 2018-04-04 15:12:44
+    ## 13 2018-04-05 16:55:39
+    ## 14 2018-04-05 17:15:36
