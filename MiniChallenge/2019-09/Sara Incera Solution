@@ -1,0 +1,100 @@
+---
+title: "September 2019 - Sara Incera's Solution"
+output: html_notebook
+---
+
+
+
+
+
+Jackknife Estimation: In statistics, the jackknife is a resampling technique especially useful for variance and bias estimation. The jackknife pre-dates other common resampling methods such as the bootstrap. The jackknife estimator of a parameter is found by systematically leaving out each observation from a dataset and calculating the estimate and then finding the average of these calculations. This is also known as Leave One Out Cross Validation (LOOCV).
+
+```{r}
+?ChickWeight
+summary(ChickWeight)
+```
+We have unequal variances on the experimental "Diet" groups
+
+
+
+We can create a linear model for the entire data set with the code
+```{r}
+fit <- lm(weight ~ Time, data = ChickWeight)
+fit
+```
+We could add Time|Chick to control for the intra-subject effect
+
+
+
+We can get the R2 value with the code
+```{r}
+summary(fit)$adj.r.squared
+```
+These chicks sure get bigger over time as 70% of the variance in weight is explained by time
+
+
+
+GOAL: Implement a jackknife procedure to produce a graphical display (such as a histogram or boxplot) of the R2 value for the model estimating weight as a function of time.
+
+
+
+We need to create a loop that eliminates one row at the time, calculates the R2 value for each of the linear models, and stores each r-squre in a new variable that we can use to create a histogram.
+```{r}
+x <- 1:578
+RSquares <- numeric(length(x))
+
+for (i in seq_along(x)){
+  Shorter <- ChickWeight[-i, ]
+  fit <- lm(weight ~ Time, data = Shorter)
+  RSquares[i] <- summary(fit)$adj.r.squared
+}
+
+RSquares
+```
+
+```{r}
+hist(RSquares)
+```
+
+Why is it right skewed? Are some measures outliers and removing them makes the R square larger? Will these "outlier" measures be all from the same chick? 
+
+
+
+
+
+```{r}
+Dataset <- ChickWeight
+Dataset$RSquares <- RSquares
+```
+
+```{r}
+library(ggplot2)
+```
+
+
+
+Let's visualize what data points have a particular strong influence in the R square.
+```{r}
+ggplot(Dataset, aes(Time, weight)) + 
+  geom_point(aes(colour = RSquares)) + 
+  geom_smooth(method="lm", formula=y~x)
+```
+As expected, removing dots that are farther from the line result in the R Square getting larger (clear dots farther from the line - dark dots closer to the line).
+
+
+
+
+
+Are the chicks in a specific diet particularly likely to be outliers?
+```{r}
+ggplot(Dataset, aes(Time, weight)) + 
+  geom_point(aes(colour = RSquares)) + 
+  geom_smooth(method="lm", formula=y~x) +
+  facet_grid(~Diet)
+```
+There is a chick in Diet 2 which is not gaining enough weight when compared to his/her peers. This chick might not look as such a big outlier in Diet 1, where there are other chicks not gaining much weight. 
+
+
+
+
+If you have questions, suggestions, and/or comments about the analysis, please contact Sara Incera at sara.incera@eku.edu
