@@ -16,3 +16,6 @@ The [video in this link](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDqxHWvCt
 ## Mini Challenges
 
 Each month we offer a new mini challenge to give you an opportunity to learn something new in R. You can see all of our mini challenges on our [GitHub repository](https://github.com/EKUResearchAnalysis/RUserGroup/tree/master/MiniChallenge).
+
+* [September Mini Challenge](https://ekuresearchanalysis.github.io/RUserGroup/MiniChallenge/2019-09/MiniChallenge)
+* [October Mini Challenge](https://ekuresearchanalysis.github.io/RUserGroup/MiniChallenge/2019-10/MiniChallenge)
