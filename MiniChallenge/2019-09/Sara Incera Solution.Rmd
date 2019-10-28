@@ -1,6 +1,6 @@
 ---
 title: "September 2019 - Sara Incera's Solution"
-output: md_document
+output: html_document
 ---
 
 
