@@ -81,3 +81,8 @@ for (i in seq_along(x)){
 
 x_squared
 ```
+
+## Solutions
+
+* [Benjamin Nutter](https://ekuresearchanalysis.github.io/RUserGroup/MiniChallenge/2019-09/MiniChallenge-Solution.html)
+* [Sara Incera](https://ekuresearchanalysis.github.io/RUserGroup/MiniChallenge/2019-09/Sara-Incera-Solution.html)
