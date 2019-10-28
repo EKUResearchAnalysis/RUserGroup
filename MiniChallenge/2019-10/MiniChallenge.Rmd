@@ -1,0 +1,74 @@
+---
+title: "Bootstrap Data Sets"
+author: "EKU R User Group"
+date: "29 October 2019"
+output: html_document
+---
+
+## Bootstrapping
+
+Bootstrapping is another form of cross-validation. Instead of systematically leaving out one observation, a bootstrap resamples from the existing data with replacement. A key characteristic of a bootstrap sample is that it contains the same number of observations as the original data set.
+
+To take a look at sampling with replacement more closely, consider a simple vector consisting of the integers from 1 to 10.
+
+```{r}
+example <- 1:10
+```
+
+A bootstrap sample of `example` will contain 10 randomly selected elements of `example` with replacement sampling, meaning any element may be chosen multiple times, and some elements will not be chosen at all.
+
+```{r}
+sample(example, 
+       size = 10, 
+       replace = TRUE)
+```
+
+When sampling from a data frame, we can sample from the unique rows
+
+```{r}
+Example <- data.frame(id = seq_len(10), 
+                      some_data = rnorm(10))
+
+sample(seq_len(nrow(Example)), 
+       size = nrow(Example),
+       replace = TRUE)
+```
+
+## Challenge
+
+Using samples of size 10, 25, 50, 75, 100, 250, 500, and 1000, create a visualization that shows what percentage of a data set is sampled at each sample size.  Use 100 bootstrap samples per sample size.
+
+## Some helpful hints
+
+Since this challenge is focused on performing the repetitions, we'll give you an easy to use function to get the percentage of a data set used within a bootstrap sample.
+
+```{r}
+# n = sample size
+percentage_used_bootstrap <- function(n){
+  ToyData <- data.frame(id = seq_len(n), 
+                        random_data = rnorm(n))
+  sampled_id <- sample(seq_len(nrow(ToyData)), 
+                       size = n, 
+                       replace = TRUE)
+  length(unique(sampled_id)) / nrow(ToyData)
+}
+```
+
+Another hint is that R includes a call that will repeat an expression as many times as you want it to.  See the help file for the `?replicate` function. An example of it's usage is:
+
+```{r}
+replicate(n = 3, 
+          {
+            rnorm(10)
+          })
+```
+
+Notice that the result is a matrix where each column is a set of 10 randomly generated values. A feature of interest is that if your expression returns a single value, the result will be a vector, instead of a matrix.
+
+```{r}
+replicate(n = 3, 
+          {
+            rnorm(1)
+          })
+```
+
