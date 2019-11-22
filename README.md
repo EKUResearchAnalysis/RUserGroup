@@ -1,6 +1,6 @@
 # Welcome to EKU's R User Group
 
-The R User Group at EKU exists to support the development of students and faculty in using R Statistical Software in data analysis and presentation. Meetings occur on the **last Tuesday** of each month at the Noel Studio - Breakout Room 3, from 2:15 - 3:15 PM.
+The R User Group at EKU exists to support the development of students and faculty in using R Statistical Software in data analysis and presentation. Meetings occur on the **last Tuesday** of each month at the Noel Studio - Breakout Room 3.
 
 ## Installing R on your Computer
 
