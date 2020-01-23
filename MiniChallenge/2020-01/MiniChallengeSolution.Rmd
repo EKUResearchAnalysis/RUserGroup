@@ -1,0 +1,172 @@
+---
+title: "Counting with Letters"
+author: "EKU R User Group"
+date: "28 January 2020"
+output: html_document
+---
+
+## Mimicking Excel Column Names
+
+You have received a data set for analysis.  The data file has over 150 variables. The first row of the file has descriptive titles for each of the variables.  These titles look something like "Enrollment: What is/was your enrollment status while in your graduate program?"  Even worse, the data dictionary you received defines coding of the likert scales with language such as "Column AB: 1 = Mostly False, 2 = Somewhat False..."
+
+The researcher is not interested in taking the time to assign unique and meaningful variable names to more than 150 variables, and then redoing their codebook to match the new variable names. For the purpose of this project, it is decided that it would be more efficient to assign variable names to the data based on the column position.
+
+The objective of this mini challenge is to translate numeric column position into Excel style column titles.  For instance
+
+* 1 = A
+* 2 = B
+* 26 = Z
+* 27 = AA
+* 28 = AB
+* 500 = SF
+
+## Some Guidelines
+
+* We will limit ourselves to the range of 1 to 500<sup>1</sup>.  
+* Two uncommon operators will be useful for this challenge:
+    + `%/%` is the operator for _integer division_. It returns the integer (with no remainder) after division.  For example `13 %/% 5 = 2`, because 5 goes into 13 two times.
+    + `%%` is the operator for _remainder division_ (or modulo division). It returns the remainder following division. For example, `13 %% 5 = 3`, because the remainder of `13 / 5` is 3.
+* This challenge is very similar to translate base 10 numbers into base 26.  The one caveat is that there is no "0" character.
+
+Start with the following code:
+
+```{r}
+x <- 1:30
+```
+
+When you believe you have the challenge solved, use `x <- 1:500` and compare with the output at the end of the challenge description.
+
+## Hints
+
+* Since we are limiting ourselves to two alpha-digits, we can focus on identifying the left digit and the right digit separately.
+* For the left digit, look at the output for `x %/% 26`. What does this result tell you about the left digit?
+* For the right digit, look at the output for `x %% 26`. What does this result tell you about the right digit?
+* `R` has a built in constant called `LETTERS` that lists all of the upper case English letters. You can use this to get letters based on an index.  For instance, `LETTERS[19]` returns `r LETTERS[19]`
+* Be careful with indexes.  If you use `LETTERS[0]` you get `character(0)` in return, which will probably hit you with unexpected results.
+
+
+## Solution
+
+To solve this puzzle, we will focus on getting the left and right alpha-digits separately.  Typically, the right alpha-digit is easier to get to, so we will tackle that one first.
+
+```{r}
+x <- 1:30
+```
+
+First, we need to know where each value in `x` is on a count between 1 and 26.  This is a good place to use _remainder division_ using the `%%` operator.
+
+```{r}
+x %% 26
+```
+
+Notice how we have a `0` in the position where we would like `Z`. We have two options here.  We can force a "Z" into any place with a `0`:
+
+```{r}
+# Make a vector of empty strings the length of x
+right_char <- character(length(x))
+right_char[x %% 26 > 0] <- LETTERS[x %% 26]
+right_char[x %% 26 == 0] <- "Z"
+right_char
+```
+
+Alternatively, we can apply a transformation.  This is my preferred solution, because it requires a little bit less code. First, we shift `x` one position with `x - 1`. Then we take the remainder division. Then we get result + 1 position in LETTERS.
+
+```{r}
+right_decimal <- (x - 1) %% 26
+right_char <- LETTERS[right_decimal + 1]
+```
+
+The left alpha-digit is a little trickier. We have to be careful about zero-indexes here (such as `LETTERS[0]`). First, we get the decimal value of the left alpha-digit with _integer division_.  Notice that I'm using the `x - 1` transformation again.
+
+```{r}
+left_decimal <- (x - 1) %/% 26
+```
+
+Next, I can build a container for the left alpha-digit.
+
+```{r}
+left_char <- character(length(x))
+```
+
+Since everything in `left_char` is `""`, I only need to replace values in `left_char` where `left_decimal > 0`. I'll use nested index to accomplish this
+
+```{r}
+left_char[left_decimal > 0] <- LETTERS[left_decimal[left_decimal > 0]]
+```
+
+Now that I have the left and right alpha-digits, I can paste them together to get my results
+
+```{r}
+paste0(left_char, right_char)
+```
+
+Lastly, to generalize the solution:
+
+```{r}
+x <- 1:500
+
+left_decimal <- (x - 1) %/% 26
+left_char <- character(length(x))
+left_char[left_decimal > 0] <- LETTERS[left_decimal[left_decimal > 0]]
+
+right_decimal <- (x - 1) %% 26
+right_char <- LETTERS[right_decimal + 1]
+
+paste0(left_char, right_char)
+```
+
+## Footnotes
+
+1. With two digits, we can count up to ZZ, or 676. Getting to AAA requires recursion, which is well out of the scope of a mini challenge.
+
+
+## Desired Output
+
+```{r, eval = FALSE}
+c("A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", 
+"M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", 
+"Z", "AA", "AB", "AC", "AD", "AE", "AF", "AG", "AH", "AI", "AJ", 
+"AK", "AL", "AM", "AN", "AO", "AP", "AQ", "AR", "AS", "AT", "AU", 
+"AV", "AW", "AX", "AY", "AZ", "BA", "BB", "BC", "BD", "BE", "BF", 
+"BG", "BH", "BI", "BJ", "BK", "BL", "BM", "BN", "BO", "BP", "BQ", 
+"BR", "BS", "BT", "BU", "BV", "BW", "BX", "BY", "BZ", "CA", "CB", 
+"CC", "CD", "CE", "CF", "CG", "CH", "CI", "CJ", "CK", "CL", "CM", 
+"CN", "CO", "CP", "CQ", "CR", "CS", "CT", "CU", "CV", "CW", "CX", 
+"CY", "CZ", "DA", "DB", "DC", "DD", "DE", "DF", "DG", "DH", "DI", 
+"DJ", "DK", "DL", "DM", "DN", "DO", "DP", "DQ", "DR", "DS", "DT", 
+"DU", "DV", "DW", "DX", "DY", "DZ", "EA", "EB", "EC", "ED", "EE", 
+"EF", "EG", "EH", "EI", "EJ", "EK", "EL", "EM", "EN", "EO", "EP", 
+"EQ", "ER", "ES", "ET", "EU", "EV", "EW", "EX", "EY", "EZ", "FA", 
+"FB", "FC", "FD", "FE", "FF", "FG", "FH", "FI", "FJ", "FK", "FL", 
+"FM", "FN", "FO", "FP", "FQ", "FR", "FS", "FT", "FU", "FV", "FW", 
+"FX", "FY", "FZ", "GA", "GB", "GC", "GD", "GE", "GF", "GG", "GH", 
+"GI", "GJ", "GK", "GL", "GM", "GN", "GO", "GP", "GQ", "GR", "GS", 
+"GT", "GU", "GV", "GW", "GX", "GY", "GZ", "HA", "HB", "HC", "HD", 
+"HE", "HF", "HG", "HH", "HI", "HJ", "HK", "HL", "HM", "HN", "HO", 
+"HP", "HQ", "HR", "HS", "HT", "HU", "HV", "HW", "HX", "HY", "HZ", 
+"IA", "IB", "IC", "ID", "IE", "IF", "IG", "IH", "II", "IJ", "IK", 
+"IL", "IM", "IN", "IO", "IP", "IQ", "IR", "IS", "IT", "IU", "IV", 
+"IW", "IX", "IY", "IZ", "JA", "JB", "JC", "JD", "JE", "JF", "JG", 
+"JH", "JI", "JJ", "JK", "JL", "JM", "JN", "JO", "JP", "JQ", "JR", 
+"JS", "JT", "JU", "JV", "JW", "JX", "JY", "JZ", "KA", "KB", "KC", 
+"KD", "KE", "KF", "KG", "KH", "KI", "KJ", "KK", "KL", "KM", "KN", 
+"KO", "KP", "KQ", "KR", "KS", "KT", "KU", "KV", "KW", "KX", "KY", 
+"KZ", "LA", "LB", "LC", "LD", "LE", "LF", "LG", "LH", "LI", "LJ", 
+"LK", "LL", "LM", "LN", "LO", "LP", "LQ", "LR", "LS", "LT", "LU", 
+"LV", "LW", "LX", "LY", "LZ", "MA", "MB", "MC", "MD", "ME", "MF", 
+"MG", "MH", "MI", "MJ", "MK", "ML", "MM", "MN", "MO", "MP", "MQ", 
+"MR", "MS", "MT", "MU", "MV", "MW", "MX", "MY", "MZ", "NA", "NB", 
+"NC", "ND", "NE", "NF", "NG", "NH", "NI", "NJ", "NK", "NL", "NM", 
+"NN", "NO", "NP", "NQ", "NR", "NS", "NT", "NU", "NV", "NW", "NX", 
+"NY", "NZ", "OA", "OB", "OC", "OD", "OE", "OF", "OG", "OH", "OI", 
+"OJ", "OK", "OL", "OM", "ON", "OO", "OP", "OQ", "OR", "OS", "OT", 
+"OU", "OV", "OW", "OX", "OY", "OZ", "PA", "PB", "PC", "PD", "PE", 
+"PF", "PG", "PH", "PI", "PJ", "PK", "PL", "PM", "PN", "PO", "PP", 
+"PQ", "PR", "PS", "PT", "PU", "PV", "PW", "PX", "PY", "PZ", "QA", 
+"QB", "QC", "QD", "QE", "QF", "QG", "QH", "QI", "QJ", "QK", "QL", 
+"QM", "QN", "QO", "QP", "QQ", "QR", "QS", "QT", "QU", "QV", "QW", 
+"QX", "QY", "QZ", "RA", "RB", "RC", "RD", "RE", "RF", "RG", "RH", 
+"RI", "RJ", "RK", "RL", "RM", "RN", "RO", "RP", "RQ", "RR", "RS", 
+"RT", "RU", "RV", "RW", "RX", "RY", "RZ", "SA", "SB", "SC", "SD", 
+"SE", "SF")
+```
