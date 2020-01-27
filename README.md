@@ -20,3 +20,7 @@ Each month we offer a new mini challenge to give you an opportunity to learn som
 * [September Mini Challenge](https://ekuresearchanalysis.github.io/RUserGroup/MiniChallenge/2019-09/MiniChallenge)
 * [October Mini Challenge](https://ekuresearchanalysis.github.io/RUserGroup/MiniChallenge/2019-10/MiniChallenge)
 * [January Mini Challenge](https://ekuresearchanalysis.github.io/RUserGroup/MiniChallenge/2020-01/MiniChallenge)
+
+## Tip of the Day
+Each month we offer a new tip of the day to give you an opportunity to learn something new in R.
+* [January Tip](http://r-statistics.co/Top50-Ggplot2-Visualizations-MasterList-R-Code.html#Diverging%20Bars)
