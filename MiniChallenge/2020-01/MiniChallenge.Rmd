@@ -28,10 +28,21 @@ The objective of this mini challenge is to translate numeric column position int
     + `%%` is the operator for _remainder division_ (or modulo division). It returns the remainder following division. For example, `13 %% 5 = 3`, because the remainder of `13 / 5` is 3.
 * This challenge is very similar to translate base 10 numbers into base 26.  The one caveat is that there is no "0" character.
 
+## The Mini Mini Challenge
+
+Before attempting the full challenge, try using only the first five letters to count to 12.  So the final results will be
+
+```{r}
+c( "A",  "B",  "C",  "D",  "E", 
+  "AA", "AB", "AC", "AD", "AE", 
+  "BA", "BE")
+```
+
 Start with the following code:
 
 ```{r}
-x <- 1:30
+x <- 1:12
+MyLetters <- LETTERS[1:5]
 ```
 
 When you believe you have the challenge solved, use `x <- 1:500` and compare with the output at the end of the challenge description.
@@ -43,10 +54,22 @@ When you believe you have the challenge solved, use `x <- 1:500` and compare wit
 * For the right digit, look at the output for `x %% 26`. What does this result tell you about the right digit?
 * `R` has a built in constant called `LETTERS` that lists all of the upper case English letters. You can use this to get letters based on an index.  For instance, `LETTERS[19]` returns `r LETTERS[19]`
 
-
 ## Footnotes
 
 1. With two digits, we can count up to ZZ, or 676. Getting to AAA requires recursion, which is well out of the scope of a mini challenge.
+
+## The Not So Mini Challenge
+
+Repeat the Mini Mini Challenge but use the full alphabet and count to 500.  If your Mini Mini Challenge result was successful, you should be able to make a couple of small modifications to your code to solve the larger challenge.
+
+Start with the following code:
+
+```{r}
+x <- 1:30
+```
+
+When you believe you have the challenge solved, use `x <- 1:500` and compare with the output at the end of the challenge description.
+
 
 
 ## Desired Output

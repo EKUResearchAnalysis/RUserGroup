@@ -396,8 +396,17 @@ summary {
 </ul></li>
 <li>This challenge is very similar to translate base 10 numbers into base 26. The one caveat is that there is no “0” character.</li>
 </ul>
+</div>
+<div id="the-mini-mini-challenge" class="section level2">
+<h2>The Mini Mini Challenge</h2>
+<p>Before attempting the full challenge, try using only the first five letters to count to 12. So the final results will be</p>
+<pre class="r"><code>c( &quot;A&quot;,  &quot;B&quot;,  &quot;C&quot;,  &quot;D&quot;,  &quot;E&quot;, 
+  &quot;AA&quot;, &quot;AB&quot;, &quot;AC&quot;, &quot;AD&quot;, &quot;AE&quot;, 
+  &quot;BA&quot;, &quot;BE&quot;)</code></pre>
+<pre><code>##  [1] &quot;A&quot;  &quot;B&quot;  &quot;C&quot;  &quot;D&quot;  &quot;E&quot;  &quot;AA&quot; &quot;AB&quot; &quot;AC&quot; &quot;AD&quot; &quot;AE&quot; &quot;BA&quot; &quot;BE&quot;</code></pre>
 <p>Start with the following code:</p>
-<pre class="r"><code>x &lt;- 1:30</code></pre>
+<pre class="r"><code>x &lt;- 1:12
+MyLetters &lt;- LETTERS[1:5]</code></pre>
 <p>When you believe you have the challenge solved, use <code>x &lt;- 1:500</code> and compare with the output at the end of the challenge description.</p>
 </div>
 <div id="hints" class="section level2">
@@ -414,6 +423,13 @@ summary {
 <ol style="list-style-type: decimal">
 <li>With two digits, we can count up to ZZ, or 676. Getting to AAA requires recursion, which is well out of the scope of a mini challenge.</li>
 </ol>
+</div>
+<div id="the-not-so-mini-challenge" class="section level2">
+<h2>The Not So Mini Challenge</h2>
+<p>Repeat the Mini Mini Challenge but use the full alphabet and count to 500. If your Mini Mini Challenge result was successful, you should be able to make a couple of small modifications to your code to solve the larger challenge.</p>
+<p>Start with the following code:</p>
+<pre class="r"><code>x &lt;- 1:30</code></pre>
+<p>When you believe you have the challenge solved, use <code>x &lt;- 1:500</code> and compare with the output at the end of the challenge description.</p>
 </div>
 <div id="desired-output" class="section level2">
 <h2>Desired Output</h2>
