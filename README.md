@@ -26,3 +26,4 @@ Each month we offer a new mini challenge to give you an opportunity to learn som
 Each month we offer a new tip of the day to give you an opportunity to learn something new in R.
 * [January Tip](http://r-statistics.co/Top50-Ggplot2-Visualizations-MasterList-R-Code.html#Diverging%20Bars)
 * [March Tip](https://shiny.rstudio.com/tutorial/written-tutorial/lesson1/)
+* [April Tip](http://www.stat.columbia.edu/~tzheng/files/Rcolor.pdf)
