@@ -11,7 +11,7 @@ While it is not required that you have access to R to attend the meetings, it ma
 
 It is crucial that you install R first (if not RStudio will not work) and we ask that you do this before coming to the meetings. If you have questions regarding the installation, arrive a few minutes early and we will be happy to help you.
 
-The [video in this link](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDqxHWvCtjBvjSBvTbKWDCXfDv?projector=1) will walk you through the installation process.
+The [video in this link](https://www.youtube.com/watch?v=d-u_7vdag-0) will walk you through the installation process.
 
 ## Mini Challenges
 
